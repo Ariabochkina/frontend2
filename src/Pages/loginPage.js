@@ -1,0 +1,36 @@
+import React, { Component } from 'react'
+export class LoginPage extends Component {
+    constructor(props){
+        super(props)
+        this.state = {password: ""}
+        this.handleChange = this.handleChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
+    }
+    handleChange(event){
+        this.setState({password: event.target.value})
+    }
+    handleSubmit(event){
+        if (this.checkPassword()){
+            window.open("/?#/home", "_self")
+        }
+        else{
+            alert("Неверный пароль")
+        }
+    }
+    checkPassword(){
+        return this.state.password === "6321"
+    }
+    render() {
+        return (
+            <form onSubmit={this.handleSubmit}>
+                <label>
+                    <p>Введите пароль </p>
+                    <textarea value={this.state.value} onChange={this.handleChange} className='text-area'/>
+                </label>
+                <input type='submit' value="Отправить" />
+            </form>
+        )
+    }
+}
+
+export default LoginPage
