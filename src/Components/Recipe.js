@@ -3,22 +3,23 @@ import React, { Component } from 'react'
 export class Recipe extends Component {
     constructor(props){
         super(props)
-        this.state = props.json
-        this.state.update = props.update
+        this.state = {json:null, father:null}
+        this.state.json = props.json
+        this.state.father = props.father
         this.changeName = this.changeName.bind(this)
     }
     changeName(event){
         var prevState = this.state
-        prevState.name = event.target.value
+        prevState.json.name = event.target.value
         this.setState(prevState)
-        this.state.update()
+        this.state.father.update()
     }
     render() {
         return (
         
             <label>
                 <p>Имя рецепта</p>
-                <textarea value={this.state.name} onChange={this.changeName}/>
+                <textarea value={this.state.json.name} onChange={this.changeName}/>
                 </label>
         
         )
