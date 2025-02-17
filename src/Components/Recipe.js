@@ -1,9 +1,20 @@
 import React, { Component } from 'react'
 import Taste from './Taste'
+import Ingredients from './Ingredients'
 const showTastes = (props, onDelete) => {
     let ans = []
     for (let i = 0; i < props.json.tastes.length; i++) {
         ans.push(<Taste name={props.json.tastes[i]} key={i} onDelete={() => onDelete(i)}/>)
+    }
+    return (<div>
+        {ans}
+    </div>)
+}
+const showMeasures = (props, onDelete) => {
+    let keys = Object.keys(props.json.default_measures)
+    let ans = []
+    for (let i = 0; i < keys.length; i++) {
+        ans.push(<Ingredients name={keys[i]} value={props.json.default_measures[keys[i]]} key={keys[i]} onDelete={() => onDelete(i)}/>)
     }
     return (<div>
         {ans}
@@ -18,6 +29,8 @@ export class Recipe extends Component {
         this.changeName = this.changeName.bind(this)
         this.addTaste = this.addTaste.bind(this)
         this.deleteTaste = this.deleteTaste.bind(this)
+        this.addIngredient = this.addIngredient.bind(this)
+        this.deleteIngredient = this.deleteIngredient.bind(this)
     }
     changeName(event){
         var prevState = this.state
@@ -35,6 +48,16 @@ export class Recipe extends Component {
         prev.json.tastes[len] = ""
         this.setState(prev)
     }
+    deleteIngredient(key){  
+        let prev = this.state
+        delete prev.json.default_measures[key]
+        this.setState(prev) 
+    }
+    addIngredient(){
+        let prev = this.state
+        prev.json.default_measures[""] = 0
+        this.setState(prev)
+    }
     render() {
         return (
             <div>
@@ -46,6 +69,9 @@ export class Recipe extends Component {
             <p>Вкусы</p>
             {showTastes(this.state, this.deleteTaste)}
             <button onClick={this.addTaste}>Добавить вкус</button>
+            <p>ингредиенты</p>
+            {showMeasures(this.state, this.deleteIngredient)}
+            <button onClick={this.addIngredient}>Добавить ингредиент</button>
             </div>
         )
     }
