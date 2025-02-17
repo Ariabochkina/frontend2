@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Recipe from '../Components/Recipe'
-const showRecipes = (props, onDelete) => {
+function showRecipes (props, onDelete) {
     return (<div>
         {props.json.map(el => (
             <Recipe json={el} key={el.id} onDelete={() => onDelete(el.id)}/>
@@ -21,7 +21,13 @@ export class Home extends Component {
         this.recipeAccess = []
         this.addRecipe = this.addRecipe.bind(this)
         this.deleteRecipe = this.deleteRecipe.bind(this)
-       
+        this.handleSubmit = this.handleSubmit.bind(this)
+        
+    }
+    handleSubmit() {
+        // здесь помявкать 
+        window.open("/?#/coef", "_self")
+
     }
     deleteRecipe(key){  
         let prev = this.state
@@ -52,8 +58,9 @@ export class Home extends Component {
         return (
         <div>
         <button onClick={this.addRecipe}>Добавить рецепт</button>
-        <form>
-            {showRecipes(this.state, this.deleteRecipe)}
+        {showRecipes(this.state, this.deleteRecipe)}
+        <form onSubmit={this.handleSubmit}>
+            
             <input type='submit'></input>
         </form>
         </div>

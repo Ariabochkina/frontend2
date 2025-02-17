@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Taste from './Taste'
 import Ingredients from './Ingredients'
+import Coeficients from './Coeficients'
 const showTastes = (props, onDelete) => {
     let ans = []
     for (let i = 0; i < props.json.tastes.length; i++) {
@@ -20,6 +21,17 @@ const showMeasures = (props, onDelete) => {
         {ans}
     </div>)
 }
+const showCoeficients = (props, onDelete, avaliable_tastes, avaliable_ingredients) => {
+    let ans = []
+    for (let i = 0; i < props.json.change_coeficients.length; i++) {
+        let cur = props.json.change_coeficients[i]
+        ans.push(<Coeficients name={cur.name} tastes={cur.value} avaliable_tastes={avaliable_tastes}
+             avaliable_ingredients={avaliable_ingredients} key={cur.id} onDelete={() => onDelete(cur.id)}/>)
+    }
+    return (<div>
+        {ans}
+    </div>)
+}
 export class Recipe extends Component {
     constructor(props){
         super(props)
@@ -31,6 +43,7 @@ export class Recipe extends Component {
         this.deleteTaste = this.deleteTaste.bind(this)
         this.addIngredient = this.addIngredient.bind(this)
         this.deleteIngredient = this.deleteIngredient.bind(this)
+        this.deleteCoeficients = this.deleteCoeficients.bind(this)
     }
     changeName(event){
         var prevState = this.state
@@ -69,6 +82,27 @@ export class Recipe extends Component {
         }
         this.setState(prev)
     }
+    deleteCoeficients(key){
+        let prev = this.state
+        prev.json.change_coeficients = prev.json.change_coeficients.filter(el => el.id !== key)
+        this.setState(prev)
+    }
+    avaliableIngredients(){
+        let prev = this.state.json.default_measures
+        let ans = []
+        for(let i = 0; i < prev.length; i++){
+            ans.push(prev[i].name)
+        }
+        return ans
+    }
+    avaliableTastes(){
+        let prev = this.state.json.tastes
+        let ans = []
+        for(let i = 0; i < prev.length; i++){
+            ans.push(prev[i].name)
+        }
+        return ans
+    }
     render() {
         return (
             <div>
@@ -83,6 +117,8 @@ export class Recipe extends Component {
             <p>Ингредиенты</p>
             {showMeasures(this.state, this.deleteIngredient)}
             <button onClick={this.addIngredient}>Добавить ингредиент</button>
+            <p>Коэффиценты</p>
+            {showCoeficients(this.state, this.deleteCoeficients, this.avaliableTastes(), this.avaliableIngredients(), this.deleteCoeficients)}
             </div>
         )
     }
