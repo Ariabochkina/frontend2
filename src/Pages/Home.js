@@ -14,10 +14,10 @@ export class Home extends Component {
         this.state.json = [{
             id: 0,
             name: "espresso", 
-            tastes: ["bitter", "sour", "strong"],
-            default_measures: {"ground_coffee": 18, "water": 36},
-            change_coeficients: {"ground_coffee": {"bitter": 1}}
-        }]        
+            tastes: [{id: 0, name: "bitter"}, {id: 1, name: "sour"}, {id: 2, name: "strong"}],
+            default_measures: [{id: 0, name: "ground_coffee", value: 18}, {id: 1, name: "water", value: 36}],
+            change_coeficients: [{id: 0, name: "ground_coffee", tastes: [{id: 0,name: "bitter", value: 1}]}]
+        }]     
         this.recipeAccess = []
         this.addRecipe = this.addRecipe.bind(this)
         this.deleteRecipe = this.deleteRecipe.bind(this)
@@ -36,15 +36,15 @@ export class Home extends Component {
                 id: 0,
                 name: "", 
                 tastes: [],
-                default_measures: {},
-                change_coeficients: {}}
+                default_measures: [],
+                change_coeficients: []}
         } else {
             prev.json[len] = {
                 id: prev.json[len - 1].id + 1,
                 name: "", 
                 tastes: [],
-                default_measures: {},
-                change_coeficients: {}}
+                default_measures: [],
+                change_coeficients: []}
         }
         this.setState(prev)
     }

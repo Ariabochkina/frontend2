@@ -7,6 +7,7 @@ export class Ingredients extends Component {
         this.state.id = props.id
         this.state.onDelete = props.onDelete
         this.changeName = this.changeName.bind(this)
+        this.changeValue = this.changeValue.bind(this)
     }
     changeName(event){
         var prevState = this.state
