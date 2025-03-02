@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import Recipe from '../Components/Recipe'
-function showRecipes (props, onDelete) {
+function showRecipes (props, onDelete, somethingChanged) {
     return (<div>
         {props.json.map(el => (
-            <Recipe json={el} key={el.id} onDelete={() => onDelete(el.id)}/>
+            <Recipe json={el} key={el.id} onDelete={() => onDelete(el.id)} onSomethingChanged={(val) => somethingChanged(val)}/>
         ))}
     </div>)
 }
@@ -22,12 +22,26 @@ export class Home extends Component {
         this.addRecipe = this.addRecipe.bind(this)
         this.deleteRecipe = this.deleteRecipe.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
-        
+        this.somethingChanged = this.somethingChanged.bind(this)
     }
-    handleSubmit() {
+    handleSubmit(e) {
+        e.preventDefault()
         // здесь помявкать 
-        window.open("/?#/coef", "_self")
+        let params = new URL(document.location.toString()).searchParams;
+        let password = params.get("password").toString();
+        console.log(JSON.stringify(this.state.json))
+        window.open("/coef" + "?password=" + password, "_self")
+    }
 
+    somethingChanged(json) {
+        let prev = this.state
+        for (let i = 0; i < prev.json.length; i++) {
+            if (prev.json[i].id === json.id) {
+                prev.json[i] = json
+            }
+        }
+        this.setState(this.state)
+        console.log(JSON.stringify(this.state.json))
     }
     deleteRecipe(key){  
         let prev = this.state
@@ -58,7 +72,7 @@ export class Home extends Component {
         return (
         <div>
         <button onClick={this.addRecipe}>Добавить рецепт</button>
-        {showRecipes(this.state, this.deleteRecipe)}
+        {showRecipes(this.state, this.deleteRecipe, this.somethingChanged)}
         <form onSubmit={this.handleSubmit}>
             
             <input type='submit'></input>

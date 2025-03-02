@@ -5,13 +5,15 @@ export class LoginPage extends Component {
         this.state = {password: ""}
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.checkPassword = this.checkPassword.bind(this)
     }
     handleChange(event){
         this.setState({password: event.target.value})
     }
     handleSubmit(event){
         if (this.checkPassword()){
-            window.open("/?#/home", "_self")
+            event.preventDefault();
+            window.open("home?password=" + this.state.password, "_self")
         }
         else{
             alert("Неверный пароль")

@@ -3,28 +3,31 @@ import React, { Component } from 'react'
 export class Ingredients extends Component {
     constructor(props){
         super(props)
-        this.state = {name: props.name, value: props.value}
+        this.state = {json: props.json}
         this.state.id = props.id
         this.state.onDelete = props.onDelete
+        this.state.onSomethingChanged = props.onSomethingChanged
         this.changeName = this.changeName.bind(this)
         this.changeValue = this.changeValue.bind(this)
     }
     changeName(event){
         var prevState = this.state
-        prevState.name = event.target.value
+        prevState.json.name = event.target.value
         this.setState(prevState)
+        this.state.onSomethingChanged(this.state.json)
     }
     changeValue(event){
         var prevState = this.state
-        prevState.value = event.target.value
+        prevState.json.value = event.target.value
         this.setState(prevState)
+        this.state.onSomethingChanged(this.state.json)
     }
     render() {
         return (
         <div>
             <button onClick={this.state.onDelete}>Удалить ингредиент</button>
-            <textarea value={this.state.name} onChange={this.changeName}></textarea>
-            <textarea value={this.state.value} onChange={this.changeValue}></textarea>
+            <textarea value={this.state.json.name} onChange={this.changeName}></textarea>
+            <textarea value={this.state.json.value} onChange={this.changeValue}></textarea>
         </div>
         )
     }
