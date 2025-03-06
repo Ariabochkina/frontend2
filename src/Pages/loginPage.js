@@ -26,10 +26,10 @@ export class LoginPage extends Component {
         return (
             <form onSubmit={this.handleSubmit}>
                 <label>
-                    <p>Введите пароль </p>
+                    <h2>Введите пароль </h2>
                     <textarea value={this.state.value} onChange={this.handleChange} className='text-area'/>
                 </label>
-                <input type='submit' value="Отправить" />
+                <input type='submit' value="Отправить" className='submit' />
             </form>
         )
     }

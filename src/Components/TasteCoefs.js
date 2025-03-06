@@ -30,12 +30,12 @@ export class TasteCoefs extends Component {
 
     render() {
         return (
-        <div>
-            <button onClick={this.state.onDelete}>Удалить вкус</button>
-            <select value={this.state.json.name} onChange={this.changeTaste}>
+        <div className='form'>
+            <select value={this.state.json.name} onChange={this.changeTaste} className='select'>
                 {createOptions(this.state.avaliable_tastes)}
             </select>
-            <textarea value={this.state.json.value} onChange={this.changeValue}></textarea>
+            <textarea value={this.state.json.value} onChange={this.changeValue} className='text-area'></textarea>
+            <button onClick={this.state.onDelete} className='delete'>Удалить вкус</button>
         </div>
         )
     }

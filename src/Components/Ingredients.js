@@ -24,10 +24,10 @@ export class Ingredients extends Component {
     }
     render() {
         return (
-        <div>
-            <button onClick={this.state.onDelete}>Удалить ингредиент</button>
-            <textarea value={this.state.json.name} onChange={this.changeName}></textarea>
-            <textarea value={this.state.json.value} onChange={this.changeValue}></textarea>
+        <div className='form'>
+            <textarea value={this.state.json.name} onChange={this.changeName} className='text-area'></textarea>
+            <textarea value={this.state.json.value} onChange={this.changeValue} className='text-area'></textarea>
+            <button onClick={this.state.onDelete} className='delete'>Удалить ингредиент</button>
         </div>
         )
     }

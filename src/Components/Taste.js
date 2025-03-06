@@ -16,9 +16,9 @@ export class Taste extends Component {
     }
     render() {
         return (
-        <div>
-            <button onClick={this.state.onDelete}>Удалить вкус</button>
-            <textarea value={this.state.json.name} onChange={this.changeName}></textarea>
+        <div className='form'>
+            <textarea value={this.state.json.name} onChange={this.changeName} className='text-area'></textarea>
+            <button onClick={this.state.onDelete} className='delete'>Удалить вкус</button>
         </div>
         )
     }

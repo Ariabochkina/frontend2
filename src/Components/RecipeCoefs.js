@@ -68,13 +68,13 @@ export class RecipeCoefs extends Component {
     }
     render() {
         return (
-        <div>
+        <div className='recipe'>
             <label>
                 <p>Имя рецепта: {this.state.json.name}</p>
             </label>
             <p>Коэффиценты</p>
-            <button onClick={this.addCoeficients}>Добавить</button>
             {showCoeficients(this.state, this.deleteCoeficients, this.coeficiensChanged, this.avaliableTastes(), this.avaliableIngredients())}
+            <button onClick={this.addCoeficients} className='add'>Добавить ингредиент</button>
         </div>
         )
     }

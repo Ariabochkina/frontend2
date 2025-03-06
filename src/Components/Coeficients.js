@@ -64,13 +64,13 @@ export class Coeficients extends Component {
     render() {
         return (
         <div>
-            <button onClick={this.state.onDelete}>Удалить ингредиент</button>
             <label>Выберете ингредиент</label>
                 <select value={this.state.json.name} onChange={this.changeName} className='select'>
                     {createOptions(this.state.avaliable_ingredients)}
                 </select>
+                <button onClick={this.state.onDelete} className='delete'>Удалить ингредиент</button>
                 {createTastes(this.state.json.tastes, this.state.avaliable_tastes, this.deleteTaste, this.onTasteChanged)}
-                <button onClick={this.addTaste}>Добавить вкус </button>
+                <button onClick={this.addTaste} className='add'>Добавить вкус </button>
         </div>
         )
     }
