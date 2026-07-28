@@ -1,70 +1,134 @@
-# Getting Started with Create React App
+# Frontend2 (Business Panel) for Balance
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Веб-интерфейс для бизнес-пользователя в проекте **Balance**: редактор рецептов и матрицы влияния ингредиентов на вкусовые характеристики.
 
-## Available Scripts
+Этот репозиторий — клиентская часть к backend-проекту `balance`, где бизнес:
+- управляет рецептами;
+- задает базовые ингредиенты;
+- настраивает коэффициенты влияния ингредиентов на вкусы.
 
-In the project directory, you can run:
+Связанные репозитории проекта `Balance`:
+- backend: [Shfdis/balance](https://github.com/Shfdis/balance)
+- frontend (опрос для клиента): [Ariabochkina/frontend1](https://github.com/Ariabochkina/frontend1)
+- frontend (бизнес-панель, этот репозиторий): `frontend2`
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Что делает приложение
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Приложение реализует flow из двух рабочих экранов:
 
-### `npm test`
+1. **Вход (`/login`)**
+   - ввод пароля;
+   - проверка доступа через `GET /recipes?password=...`;
+   - переход в редактор рецептов.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. **Редактор рецептов (`/home`)**
+   - добавление и удаление рецептов;
+   - редактирование названия рецепта;
+   - управление списком вкусов;
+   - управление списком ингредиентов и их базовых значений;
+   - отправка обновленного набора рецептов на backend (`POST /recipes?password=...`).
 
-### `npm run build`
+3. **Редактор коэффициентов (`/coef`)**
+   - настройка соответствия `ингредиент -> список вкусов + коэффициенты влияния`;
+   - добавление/удаление коэффициентных связей;
+   - сохранение изменений через backend API.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Моя зона ответственности в этом проекте
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- разработка структуры бизнес-панели на React;
+- декомпозиция на переиспользуемые компоненты (`Recipe`, `Taste`, `Ingredients`, `RecipeCoefs`, `Coeficients`, `TasteCoefs`);
+- реализация CRUD-сценариев на уровне UI для рецептов, вкусов, ингредиентов и коэффициентов;
+- интеграция с API backend-сервиса (`GET/POST /recipes`);
+- маршрутизация по этапам работы менеджера (`login -> home -> coef`);
+- базовая визуальная тема интерфейса (кнопки, поля, layout, состояния hover).
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Технологии
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- React (Create React App)
+- React Router
+- JavaScript (class components)
+- Fetch API
+- CSS
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Структура проекта
 
-## Learn More
+```text
+src/
+├── App.js                    # маршруты /login, /home, /coef
+├── Pages/
+│   ├── loginPage.js          # экран входа
+│   ├── Home.js               # экран редактирования рецептов
+│   └── Coef.js               # экран редактирования коэффициентов
+├── Components/
+│   ├── Recipe.js
+│   ├── Taste.js
+│   ├── Ingredients.js
+│   ├── RecipeCoefs.js
+│   ├── Coeficients.js
+│   └── TasteCoefs.js
+└── index.css                 # базовые стили панели
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Формат данных (на уровне frontend)
 
-### Code Splitting
+Ожидаемая модель рецепта:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```json
+{
+  "id": 0,
+  "name": "Latte",
+  "tastes": [
+    { "id": 0, "name": "sweetness" }
+  ],
+  "default_ingredients": [
+    { "id": 0, "name": "milk", "value": 200 }
+  ],
+  "change_coefficients": [
+    {
+      "id": 0,
+      "name": "milk",
+      "tastes": [
+        { "id": 0, "name": "sweetness", "value": 0.05 }
+      ]
+    }
+  ]
+}
+```
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Локальный запуск
 
-### Making a Progressive Web App
+### 1) Установить зависимости
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```bash
+npm install
+```
 
-### Advanced Configuration
+### 2) Запустить frontend
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```bash
+npm start
+```
 
-### Deployment
+По умолчанию приложение откроется на `http://localhost:3000`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### 3) Запустить backend
 
-### `npm run build` fails to minify
+Frontend ожидает API по адресу:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```text
+http://127.0.0.1:5000
+```
+
+Если backend доступен по другому адресу, обновите `APIUrl` в `src/App.js`.

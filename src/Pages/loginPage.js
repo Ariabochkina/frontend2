@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 function fetchAPI(event, param, callback) {
     event.preventDefault();
-    // param is a highlighted word from the user before it clicked the button
     fetch(param)
         .then(response => {
             callback(response.status === 200)
