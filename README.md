@@ -183,4 +183,3 @@ http://127.0.0.1:3000/login
 
 - Backend: [Shfdis/balance](https://github.com/Shfdis/balance)
 - Форма опроса: [Ariabochkina/balance-survey](https://github.com/Ariabochkina/balance-survey)
-- Демонстрация Balance: [Яндекс.Диск](https://disk.yandex.ru/i/mr6iN2WnrF1sFg)
