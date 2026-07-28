@@ -1,30 +1,52 @@
-# Frontend2 (Business Panel) for Balance
+<h1 align="center">Balance Business</h1>
 
-Веб-интерфейс для бизнес-пользователя в проекте **Balance**: редактор рецептов и матрицы влияния ингредиентов на вкусовые характеристики.
+<p align="center">
+  <b>Бизнес-панель для проекта Balance</b><br/>
+  <i>Business panel for recipe & taste coefficients in the Balance project</i>
+</p>
 
-Этот репозиторий — клиентская часть к backend-проекту `balance`, где бизнес управляет рецептами, базовыми ингредиентами и коэффициентами влияния на вкусы.
+<p align="center">
+  Редактор рецептов · коэффициенты влияния · персонализация вкуса
+</p>
 
-Связанные репозитории проекта `Balance`:
-- backend: [Shfdis/balance](https://github.com/Shfdis/balance)
-- frontend (форма опроса): [Ariabochkina/frontend1](https://github.com/Ariabochkina/frontend1)
-- frontend (бизнес-панель, этот репозиторий): `frontend2`
+<p align="center">
+  <img src="https://img.shields.io/badge/React-CRA-61DAFB?style=flat-square&logo=react&logoColor=white" alt="React" />
+  <img src="https://img.shields.io/badge/JavaScript-ES6-F7DF1E?style=flat-square&logo=javascript&logoColor=black" alt="JavaScript" />
+  <img src="https://img.shields.io/badge/React_Router-7-CA4245?style=flat-square&logo=reactrouter&logoColor=white" alt="React Router" />
+  <img src="https://img.shields.io/badge/API-Fetch-4CAF50?style=flat-square" alt="Fetch API" />
+  <img src="https://img.shields.io/badge/CSS-Montserrat-1572B6?style=flat-square&logo=css3&logoColor=white" alt="CSS" />
+</p>
 
 ---
 
-## О проекте Balance (контекст)
+## О проекте
 
-**Balance** — инструмент для бизнеса, который готовит еду и напитки не из готовых заготовок: помогает собирать «умные» рецепты и автоматически персонализировать их под вкус конкретного гостя.
+**Balance Business** — веб-панель для менеджера в проекте [Balance](https://github.com/Shfdis/balance): здесь собирают «умные» рецепты, базовые ингредиенты и правила влияния на вкусы.
 
-Идея простая: бизнес задаёт базовый рецепт и правила влияния ингредиентов на вкусовые характеристики (сладость, солёность, горечь и т.д.). Гость после покупки может пройти короткий опрос и сдвинуть вкус в нужную сторону — а следующий заказ уже готовится с учётом его предпочтений, если он этого захочет.
-
-Эта бизнес-панель — рабочее место менеджера в этой схеме: здесь собирают рецепты, вкусы и коэффициенты, от которых зависит вся персонализация.
+Гость после покупки может пройти опрос ([balance-survey](https://github.com/Ariabochkina/balance-survey)) и сдвинуть вкус — а следующий заказ готовится уже с учётом предпочтений. Эта панель задаёт ту конфигурацию, от которой зависит персонализация.
 
 | | |
 | --- | --- |
-| **Этот клиент** | бизнес-панель (`frontend2`) |
-| **Форма опроса** | опрос гостя после покупки (`frontend1`) |
-| **Сервер** | Flask API + БД (`balance`) |
-| **Порт панели** | `3002` (в составе общего деплоя Balance) |
+| **Роль** | бизнес-панель (редактор рецептов и коэффициентов) |
+| **Стек** | React (CRA), React Router, JavaScript, Fetch API, CSS |
+| **Backend** | [Shfdis/balance](https://github.com/Shfdis/balance) |
+| **Пара** | форма опроса — [balance-survey](https://github.com/Ariabochkina/balance-survey) |
+
+---
+
+## Скриншоты
+
+<p align="center">
+  <img src="docs/login.png" alt="Вход" width="280" />
+  &nbsp;
+  <img src="docs/home.png" alt="Редактор рецептов" width="280" />
+  &nbsp;
+  <img src="docs/coef.png" alt="Редактор коэффициентов" width="280" />
+</p>
+
+<p align="center">
+  <em>Вход · рецепты · коэффициенты</em>
+</p>
 
 ---
 
@@ -43,15 +65,15 @@
   /login → /home → /coef
         │
         ▼
-┌──────────────────────────┐
-│  frontend2 (бизнес-панель)│
-└──────────┬───────────────┘
+┌──────────────────────────────┐
+│  balance-business (панель)   │
+└──────────┬───────────────────┘
            │ GET  /recipes?password=...
            │ POST /recipes?password=...
            ▼
-┌──────────────────────────┐
-│  balance (Flask)         │  хранит рецепты и коэффициенты
-└──────────────────────────┘
+┌──────────────────────────────┐
+│  balance (Flask)             │  хранит рецепты и коэффициенты
+└──────────────────────────────┘
 ```
 
 Формат рецепта при обмене с API:
@@ -82,10 +104,11 @@
 
 ## Моя зона ответственности в этом проекте
 
-- UI бизнес-панели на React и разбиение на компоненты;
+- разработка UI бизнес-панели на React;
+- декомпозиция на компоненты (`Recipe`, `Taste`, `Ingredients`, `RecipeCoefs`, `Coeficients`, `TasteCoefs`);
 - экраны входа, редактора рецептов и коэффициентов;
-- интеграция с API (`GET/POST /recipes`);
-- оформление интерфейса.
+- интеграция с API backend (`GET/POST /recipes`);
+- визуальное оформление панели.
 
 ---
 
@@ -104,6 +127,7 @@
 ```text
 src/
 ├── App.js                    # маршруты /login, /home, /coef
+├── demoRecipes.js            # демо-данные без backend
 ├── index.js
 ├── index.css                 # тема панели
 ├── Pages/
@@ -123,42 +147,40 @@ src/
 
 ## Локальный запуск
 
+Нужны Node.js и npm.
+
 ### 1) Установить зависимости
 
 ```bash
-npm install
+npm install --legacy-peer-deps
 ```
 
-### 2) Запустить frontend
+(`--legacy-peer-deps` нужен из‑за React 19 и старых testing-библиотек в CRA.)
+
+### 2) Запустить панель
 
 ```bash
 npm start
 ```
 
-По умолчанию приложение откроется на `http://localhost:3000`.
+Откроется [http://127.0.0.1:3000](http://127.0.0.1:3000) (редирект на `/login`).
 
-### 3) Открыть панель
+**Только посмотреть UI** — на экране входа укажите пароль `demo` (или оставьте поле пустым): откроется демо-рецепт Latte. Сохранение покажет alert и не ходит на backend.
 
-```text
-http://localhost:3000/login
-```
-
-После входа пароль передаётся в query (`?password=...`) на экраны `/home` и `/coef`.
-
-### 4) Запустить backend
-
-Frontend ожидает API по адресу:
+**Полный сценарий с backend** — поднимите [balance](https://github.com/Shfdis/balance) (API на `http://localhost:5000`) и войдите с паролем бизнеса:
 
 ```text
-http://localhost:5000
+http://127.0.0.1:3000/login
 ```
 
-Если backend доступен по другому адресу, обновите `APIUrl` в `src/App.js`.
+Если API на другом адресе — поменяйте `APIUrl` в `src/App.js`.
+
+> В монорепозитории [Shfdis/balance](https://github.com/Shfdis/balance) эта панель по-прежнему лежит в папке `frontend2` (порт `3002`) — так устроен Docker-деплой. Этот репозиторий — отдельная клиентская часть для портфолио.
 
 ---
 
 ## Ссылки
 
 - Backend: [Shfdis/balance](https://github.com/Shfdis/balance)
-- Форма опроса: [Ariabochkina/frontend1](https://github.com/Ariabochkina/frontend1)
+- Форма опроса: [Ariabochkina/balance-survey](https://github.com/Ariabochkina/balance-survey)
 - Демонстрация Balance: [Яндекс.Диск](https://disk.yandex.ru/i/mr6iN2WnrF1sFg)

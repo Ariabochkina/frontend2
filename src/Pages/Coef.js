@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import RecipeCoefs from '../Components/RecipeCoefs'
+import { getDemoRecipes, getPasswordFromUrl, isDemoPassword } from '../demoRecipes'
+
 function showRecipesCoefs(props, onSomethingChanged) {
     return (<div>
         {props.json.map(el => (
@@ -15,19 +17,27 @@ export class Coef extends Component {
         this.somethingChanged = this.somethingChanged.bind(this)
         this.sendData = this.sendData.bind(this)
         this.loadData = this.loadData.bind(this)
-    }    
+    }
     componentDidMount() {
         this.loadData()
     }
 
     loadData(){
-        let params = new URL(document.location.toString()).searchParams;
-        let password = params.get("password").toString();
-        fetch(this.props.APIUrl + "/recipes?password=" + password)
-            .then(response => response.json())
+        const password = getPasswordFromUrl();
+        if (isDemoPassword(password)) {
+            this.setState({ json: getDemoRecipes() })
+            return
+        }
+        fetch(this.props.APIUrl + "/recipes?password=" + encodeURIComponent(password))
+            .then(response => {
+                if (!response.ok) throw new Error("bad status")
+                return response.json()
+            })
             .then(json => {
-                console.log(JSON.stringify(json))
                 this.setState({json: json})
+            })
+            .catch(() => {
+                this.setState({ json: getDemoRecipes() })
             })
     }
     somethingChanged(json) {
@@ -43,18 +53,22 @@ export class Coef extends Component {
     }
     sendData(e) {
         e.preventDefault()
-        let params = new URL(document.location.toString()).searchParams;
-        let password = params.get("password").toString();
-        fetch(this.props.APIUrl + "/recipes?password=" + password, {
+        const password = getPasswordFromUrl() || "demo";
+        if (isDemoPassword(password)) {
+            console.log("Demo save coefficients (нет backend):", this.state.json)
+            alert("Демо-режим: коэффициенты собраны локально, на backend не отправляем.")
+            return
+        }
+        fetch(this.props.APIUrl + "/recipes?password=" + encodeURIComponent(password), {
             method: "POST",
             body: JSON.stringify(this.state.json),
             headers: {
                 "Content-Type": "application/json"
             }
           });
-        
+
         console.log(JSON.stringify(this.state.json))
-        window.open("/coef" + "?password=" + password, "_self")
+        window.open("/coef?password=" + encodeURIComponent(password), "_self")
     }
     render() {
         return (
@@ -64,7 +78,7 @@ export class Coef extends Component {
                     <input type="submit" className='submit' />
                 </form>
             </div>
-        
+
         )
     }
 }
